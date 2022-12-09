@@ -57,7 +57,7 @@ public class ObjectManager : MonoBehaviour
         mousePos.y = curFruit.transform.position.y;
         mousePos.z = 0;
 
-        Debug.Log(mousePos);
+        //Debug.Log(mousePos);
 
         curFruit.transform.position = mousePos;
     }
