@@ -6,6 +6,7 @@ public class ObjectManager : MonoBehaviour
 {
 
     FruitsObject curFruit;
+    private static readonly float GRAVITY_SCALE = 1.5f;
 
 
 
@@ -41,6 +42,7 @@ public class ObjectManager : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(0))
         {
+            curFruit.GetComponent<Rigidbody2D>().gravityScale = GRAVITY_SCALE;
             // Mouse Up - ¿ÀºêÁ§Æ® ¶³¾îÁü
         }
 
