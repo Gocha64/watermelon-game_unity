@@ -7,7 +7,7 @@ public class FruitsObject : MonoBehaviour
 
     public int _level = 0;
     Renderer circleColor;
-    int goalLevel = 2;
+    int goalLevel = 6;
 
     /*
     public enum CircleColor
@@ -78,7 +78,7 @@ public class FruitsObject : MonoBehaviour
             circleColor.material.color = CircleColorDic[_level];
         else
             circleColor.material.color = Color.black;
-        CheckIsEnd();
+        SetMaxLevel();
     }
 
     //레벨에 따른 크기 변화
@@ -92,14 +92,70 @@ public class FruitsObject : MonoBehaviour
         }
     }
 
-    void CheckIsEnd()
+
+    //생성 될 때 설정된 레벨의 크기로 변환
+    public void SetFruitLevel(int fruitLevel)
+    {
+        _level = fruitLevel;
+
+        if (_level < 7 && _level >= 0)
+            circleColor.material.color = CircleColorDic[fruitLevel];
+        else
+            circleColor.material.color = Color.black;
+
+
+        gameObject.GetComponent<Rigidbody2D>().mass = _level * _level + 1;
+
+        //크기 조정 방법 개선 필요
+        switch (_level)
+        {
+            case 0:
+                transform.localScale = new Vector3(1, 1, 1);
+                break;
+            case 1:
+                transform.localScale = new Vector3(1.46410012f, 1.46410012f, 1.46410012f);
+                break;
+            case 2:
+                transform.localScale = new Vector3(2.14358902f, 2.14358902f, 2.14358902f);
+                break;
+            case 3:
+                transform.localScale = new Vector3(2.85311723f, 2.85311723f, 2.85311723f);
+                break;
+            case 4:
+                transform.localScale = new Vector3(4.17724895f, 4.17724895f, 4.17724895f);
+                break;
+            case 5:
+                transform.localScale = new Vector3(5.55991888f, 5.55991888f, 5.55991888f);
+                break;
+            case 6:
+                transform.localScale = new Vector3(8.14027786f, 8.14027786f, 8.14027786f);
+                break;
+            default:
+                transform.localScale = Vector3.one;
+                break;
+        }
+
+    }
+
+
+    //최대 레벨을 가져옴
+    //게임 승리 여부 판별
+    void SetMaxLevel()
     {
         if (_level == goalLevel)
         {
             GameObject successSensor = GameObject.Find("Success Sensor");
 
             successSensor.GetComponent<SuccessSensor>().gameWin = true;
-        } 
+        }
+
+        GameObject objectManager = GameObject.Find("@Object Manager");
+        if (objectManager.GetComponent<ObjectManager>().maxLevel < _level)
+        {
+            objectManager.GetComponent<ObjectManager>().maxLevel = _level;
+            Debug.Log($"maxLevel updated -> {objectManager.GetComponent<ObjectManager>().maxLevel}");
+        }
+            
     }
 
 

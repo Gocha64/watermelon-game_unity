@@ -7,12 +7,15 @@ public class ObjectManager : MonoBehaviour
 
     FruitsObject curFruit;
     private static readonly float GRAVITY_SCALE = 1.5f;
-    private float rightSpawnPos = -0.4f;
+    private float rightSpawnPos = 4.9f;
     private float leftSpawnPos = -7.2f;
     private float ySpawnPos = 4.3f;
 
     private float spawnCooldownTime = 1.5f;
     private bool spawnable = true;
+
+    public int maxLevel = 0;
+    public int nextSpawnLevel = 0;
 
 
     // Start is called before the first frame update
@@ -24,6 +27,8 @@ public class ObjectManager : MonoBehaviour
     void PlaceFruit(Vector3 FruitPos)
     {
         var Fruit = ObjectPool.GetObejct();
+        SetNextLevel();
+        Fruit.SetFruitLevel(nextSpawnLevel);
         Fruit.transform.position = FruitPos;
         curFruit = Fruit;
 
@@ -49,14 +54,15 @@ public class ObjectManager : MonoBehaviour
                 PlaceFruit(mousePos);
                 // Mouse Down - 오브젝트 x값을 마우스 x값으로
             }
-            else if (Input.GetMouseButton(0))
+            else if (Input.GetMouseButton(0) && curFruit != null)
             {
                 ObjectMove();
                 // Mouse Move - 오브젝트 x값을 마우스 x값으로
             }
-            else if (Input.GetMouseButtonUp(0))
+            else if (Input.GetMouseButtonUp(0) && curFruit != null)
             {
                 curFruit.GetComponent<Rigidbody2D>().gravityScale = GRAVITY_SCALE;
+                curFruit = null;
                 StartCoroutine("SpawnTime");
                 // Mouse Up - 오브젝트 떨어짐
             }
@@ -68,10 +74,10 @@ public class ObjectManager : MonoBehaviour
     IEnumerator SpawnTime()
     {
         spawnable = false;
-        Debug.Log($"spawnalbe: {spawnable}");
+        Debug.Log($"spawnable: {spawnable}");
         yield return new WaitForSeconds(spawnCooldownTime);
         spawnable = true;
-        Debug.Log($"spawnalbe: {spawnable}");
+        Debug.Log($"spawnable: {spawnable}");
     }
 
     private void ObjectMove()
@@ -91,6 +97,19 @@ public class ObjectManager : MonoBehaviour
         //Debug.Log(mousePos);
 
         curFruit.transform.position = mousePos;
+    }
+
+    void SetNextLevel()
+    {
+        if (maxLevel == 0)
+            nextSpawnLevel = 0;
+        else if (maxLevel == 1)
+            nextSpawnLevel = Random.Range(0, 2);
+        else
+            nextSpawnLevel = Random.Range(0, 3);
+
+        Debug.Log($"next spawnLevel: {nextSpawnLevel}");
+
     }
 
 

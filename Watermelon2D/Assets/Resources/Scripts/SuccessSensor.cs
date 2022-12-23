@@ -18,6 +18,7 @@ public class SuccessSensor : MonoBehaviour
         {
             Debug.Log("you win");
             winPannel.SetActive(true);
+            gameWin = false;
         }
 
     }
