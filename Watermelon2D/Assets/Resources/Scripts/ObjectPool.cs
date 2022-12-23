@@ -12,12 +12,15 @@ public class ObjectPool : MonoBehaviour
 
     Queue<FruitsObject> poolingObjectQueue = new Queue<FruitsObject>();
 
+
+    //15개의 과일을 미리 생성
     private void Awake()
     {
         Instance = this;
 
         Initialize(15);
     }
+
 
     private void Initialize(int initCount)
     {
@@ -27,6 +30,7 @@ public class ObjectPool : MonoBehaviour
         }
     }
 
+    //풀링할 오브젝트 생성
     private FruitsObject CreateNewObject()
     {
         var newObj = Instantiate(poolingObjectPrefab).GetComponent<FruitsObject>();
@@ -35,6 +39,8 @@ public class ObjectPool : MonoBehaviour
         return newObj;
     }
 
+
+    //풀링된 오브젝트 가져옴
     public static FruitsObject GetObejct()
     {
         if(Instance.poolingObjectQueue.Count > 0)
@@ -54,6 +60,7 @@ public class ObjectPool : MonoBehaviour
         }
     }
 
+    //사용한 오브젝트 회수
     public static void ReturnObject(FruitsObject obj)
     {
         obj.gameObject.SetActive(false);

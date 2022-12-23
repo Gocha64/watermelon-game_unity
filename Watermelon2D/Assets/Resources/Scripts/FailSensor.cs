@@ -10,7 +10,7 @@ public class FailSensor : MonoBehaviour
     [SerializeField]
     GameObject gameoverPannel;
 
-
+    //센서에 오브젝트가 충돌시, 게임오버
     private void OnTriggerEnter2D(Collider2D collision)
     {
         gameover = true;

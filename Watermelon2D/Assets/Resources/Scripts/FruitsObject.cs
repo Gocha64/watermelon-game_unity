@@ -23,6 +23,8 @@ public class FruitsObject : MonoBehaviour
     }
     */
 
+
+    //레벨 별 색 지정
     Dictionary<int, Color> CircleColorDic = new Dictionary<int, Color>()
         {
             { 0, Color.white },
@@ -39,7 +41,7 @@ public class FruitsObject : MonoBehaviour
     void Awake()
     {
         circleColor = gameObject.GetComponent<Renderer>();
-        //_level = 0;
+        _level = 0;
         //StartCoroutine("Scale");
     }
 
@@ -55,7 +57,7 @@ public class FruitsObject : MonoBehaviour
     }
 
 
-
+    
     private void OnCollisionStay2D(Collision2D collision)
     {
 
@@ -138,7 +140,7 @@ public class FruitsObject : MonoBehaviour
     }
 
 
-    //최대 레벨을 가져옴
+    //게임 내 최대 레벨을 가져옴
     //게임 승리 여부 판별
     void SetMaxLevel()
     {

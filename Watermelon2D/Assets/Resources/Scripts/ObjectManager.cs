@@ -18,12 +18,7 @@ public class ObjectManager : MonoBehaviour
     public int nextSpawnLevel = 0;
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //PlaceFruit(new Vector2(-2,0));
-    }
-
+    //지정된 지점에 과일을 생성함
     void PlaceFruit(Vector3 FruitPos)
     {
         var Fruit = ObjectPool.GetObejct();
@@ -46,6 +41,7 @@ public class ObjectManager : MonoBehaviour
                 mousePos.y = ySpawnPos;
                 mousePos.z = 0;
 
+                //지정된 범위 내에서만 생성 가능
                 if (mousePos.x > rightSpawnPos)
                     mousePos.x = rightSpawnPos;
 
@@ -71,6 +67,7 @@ public class ObjectManager : MonoBehaviour
 
     }
 
+    //과일 생성 쿨타임
     IEnumerator SpawnTime()
     {
         spawnable = false;
@@ -80,15 +77,17 @@ public class ObjectManager : MonoBehaviour
         Debug.Log($"spawnable: {spawnable}");
     }
 
+    //과일을 떨어뜨리기 전에 이동 처리
     private void ObjectMove()
     {
         // Screen 좌표계인 mousePosition을 World 좌표계로 바꾼다
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        // 오브젝트는 x로만 움직여야 하기 때문에 y는 고정
+        // 과일은 x로만 움직여야 하기 때문에 y는 고정
         mousePos.y = ySpawnPos;
         mousePos.z = 0;
 
+        // 지정된 범위 내에서만 이동가능
         if (mousePos.x > rightSpawnPos)
             mousePos.x = rightSpawnPos;
 
@@ -99,6 +98,7 @@ public class ObjectManager : MonoBehaviour
         curFruit.transform.position = mousePos;
     }
 
+    //현재 진행 상황에 따라서 다음에 생성될 과일의 레벨을 지정함
     void SetNextLevel()
     {
         if (maxLevel == 0)
